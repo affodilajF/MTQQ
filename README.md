@@ -5,6 +5,8 @@
 ### 1) Introduction MTQQ
 ### 2) Android and MQTT
 
+# Source :
+
       https://aws.amazon.com/id/what-is/mqtt/
       https://medium.com/swlh/android-and-mqtt-a-simple-guide-cb0cbba1931c
 
@@ -84,7 +86,7 @@ Let’s break down the details for further understanding.
   - `Topic Name` => 
   - `Payload` => content of the message. An aplhanumeric string that needs to be interpreted by clients. 
   - `QoS Level` => indicates the Quality of Service Level (0, 1, 2)
-  - `Retain Flag` =>
+  - `Retain Flag` => If set to true, the broker stores the last message sent on a topic and delivers it to any new subscriber to that topic.
 - Bellow an example :
 
 ```
@@ -113,6 +115,9 @@ QoS level: 1
 - To delete existing subscriptions to a topic, client sends a **UNSUBSCRIBE message** to the broker.
 - Content is the same as the SUBSCRIBE message: a list of subscriptions.
 
+#### MTQQ Disconnect
+Belum
+
 ## MTQQ over WSS?
 - MTQQ over WebSockets (WSS) is an MQTT implementation to receive data DIRECTLY INTO A WEB BROWSER. _
 - The MTQQ protocol defines a JS client to provide WSS support for the browsers. (in this case, the protocol works as usual but it adds additional headers to the MQTT messages to also support the WWS protocol.
@@ -137,7 +142,7 @@ QoS level: 1
 - By raising the QoS level, you will increase the reliability of the communication, but you will decrease the performance.
 - Three levels
 ### 0 - At most once (called "fire and forget")
-- No guarantee of delivery.
+- No guarantee of message delivery.
 - Use it when have stable communication channel and when the loss of message is acceptable. 
 ### 1 - At least once
 - Guarantees that a message is delivered at least one time to the receiver.
@@ -146,15 +151,41 @@ QoS level: 1
 - Guarantees that message is received only once by the receiver.
 - Use it when your application is critical and you cannot tolerate loss and duplicate messages.
 
+## MTQQ Brokers 
+- Popular Brokers : Eclipse Mosoquitto, HiveMQ, EMQX
+  
 # -----------------------------------------------------------
 # 2) Android and MQTT
 - MQTT works on TCP/IP stack, this means that the only requirement of the mobile device is the capability to connect to the internet.
-- 
 
 
+### Problems that could arise :
+#### 1. Energy Consumption Issues
+##### Issues :
+- **`Continuous Connection`** => Apps maintain a constant connection to the MQTT broker, could result to darin battery life. 
+- **`Network Usage`** => As data transmission requires power from the device's network components. 
+##### Optimization Strategies :
+- **`Periodic Connections`**
+- **`Quality of Service (QoS) Settings`**
+  - choose the appropriate QoS level.
+- **`Network Resource Management`**
+  - Such as reducing the frequency of updates/combining multiple messages into a single transmission to decrease the number of network interactions. 
+
+#### 2. Background Service Issues : 
+##### Issues : 
+- When using MQTT in an Android app, we might need to keep the app connected to the MQTT broker even when the app is not actively being used. This is where background services come into play.
+- Android limits how apps run in the background to save battery and system resources, so we need to handle this properly.
+##### Strategies : 
+- **`Foreground Service`**
+  - Keep the MQTT connection active
+  - Show a notification that the service is running
+- **`JobScheduler`**
+  - Seheduling periodic tasks when continous connectivity isnt needed.
+- **`WorkManager`**
+  - Use for reliable background tasks that **need to run with certain conditions**.
+  - Use for handle device restarts.  
 
 
-  
 
 
 
