@@ -75,12 +75,12 @@ In MQTT.
 3) When MQTT broker receives a message, it forwards its msg to subscribes who ARE INTERESTED.
 
 Let’s break down the details for further understanding.
-#### MQTT Topic
+### MQTT Topic
 - Is an **string** which used to identify category in where the message will be send and receive.
 - Topics are organized hierarchy, similiar to a file/files in directory.
 - Ex : `home/livingroom/kitchen` `home/livingroom/beedroom1` 
     
-#### MQTT Publish
+### MQTT Publish
 - A client writes data on a topic using the **PUBLISH message**.
 - MQTT clients publish messages that contain the topic and data in byte format.
 - The clients determines data format (text data, bianry, xml, json)
@@ -99,7 +99,7 @@ QoS level: 1
 Retain flag: false
 ```
   
-#### MQTT Subscribe
+### MQTT Subscribe
 - MQTT clients send a **SUBSCRIBE message** to the MQTT broker, to receive messages on topics of interest.
 - The message contains following informations :
   - `Topic Name`
@@ -114,12 +114,25 @@ QoS level: 1
 Topic name: myhome/groundfloor/bathroom
 QoS level: 1
 ```
-#### MQTT Unsubscribe
+
+### Normal Subscription and Shared Subscription
+- **Normal Subs** => Biasaa
+- **Shared Subs**
+
+  Steps =>
+  - Subscriber sent a subscription request to broker using specific format (seperti `$share/<GroupID>/<Topic>`)
+  - Broker sent subback
+  - Each publish message will be sent randomly to one subscriber.
+  - That subscriber will sent the publish message to anoter subscriber. 
+
+
+### MQTT Unsubscribe
 - To delete existing subscriptions to a topic, client sends a **UNSUBSCRIBE message** to the broker.
 - Content is the same as the SUBSCRIBE message: a list of subscriptions.
 
-#### MQTT Disconnect
-Belum
+### MQTT Disconnect
+- MQTT Client is disconnect the connection to broker.
+- The client sends a disconnect message to the broker, but the broker does not automatically send a confirmation after the connection is disconnected. Namun, jika klien perlu memastikan bahwa koneksi telah diputuskan, maka klien dapat menunggu beberapa detik sebelum memastikan bahwa koneksi telah selesai.
 
 ## MQTT over WSS?
 - MQTT over WebSockets (WSS) is an MQTT implementation to receive data DIRECTLY INTO A WEB BROWSER. _
