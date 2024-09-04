@@ -17,7 +17,7 @@
 - IoT use MQTT to tranmize the data bc of easy to apply and efficient.
 
 
-## Principe behind mqtt
+## A. Principe behind mqtt
 - The MQTT protocol works on the principle of publish/subscribe model.
 - Traditional network communication : The clients request resources or data from the server, then the server processes and sends back a response.
 - sender (publisher) send a message to receiver (subscriber), broker will filter an incoming messages and distribute them correctly.
@@ -31,7 +31,7 @@
 - Messages are published to a broker on a topic.
 - Clients never connect with each other, only with the broker.
 
-## MQTT Components
+## B. MQTT Components
 ### MQTT Client
 - Is a any devoce from a server to a microcontroller (is a single integrated circuit) that runs an MQTT lib.
 - Publisher => if the client act as a publisher.
@@ -49,8 +49,7 @@
 - Popular Brokers : Eclipse Mosoquitto, HiveMQ, EMQX
     
 
-
-## How does MQTT work?
+## C. How does MQTT work?
 <img src="https://github.com/user-attachments/assets/0986fa94-4b9c-4c81-82f0-3a5e8cba7a2b" width="400" alt="Screenshot 2024-09-04 124557">
 <img src="https://github.com/user-attachments/assets/d1075273-5d87-45e8-bcab-65f5c35f4440" width="400" alt="Screenshot 2024-09-04 124557">
 <img src="https://github.com/user-attachments/assets/72cfc7b5-5b90-45d5-9406-ad5f526d4c67" width="350" alt="Screenshot 2024-09-04 124557">
@@ -134,25 +133,25 @@ QoS level: 1
 - MQTT Client is disconnect the connection to broker.
 - The client sends a disconnect message to the broker, but the broker does not automatically send a confirmation after the connection is disconnected. Namun, jika klien perlu memastikan bahwa koneksi telah diputuskan, maka klien dapat menunggu beberapa detik sebelum memastikan bahwa koneksi telah selesai.
 
-## MQTT over WSS?
+## D. MQTT over WSS?
 - MQTT over WebSockets (WSS) is an MQTT implementation to receive data DIRECTLY INTO A WEB BROWSER. _
 - The MQTT protocol defines a JS client to provide WSS support for the browsers. (in this case, the protocol works as usual but it adds additional headers to the MQTT messages to also support the WWS protocol.
 - You can think of it as the MQTT message payload wrapped in a WSS envelope.
 
-## Is MQTT Secure?
+## E. Is MQTT Secure?
 - Yes, it uses SSL protocol to protect sensitive data transmitted by IoT devices.
 - We can implememnt identity, authc, authr, between clients and the broker using SSL certifiactes and/or passwords.
 - The MQTT broker typically authenticates clients using their passwords as well as unique client identifiers it allocates to each client.
 
-## Is MQTT RESTful? NO
+## F. Is MQTT RESTful? NO
 - In contrast, MQTT uses the publish/subscribe model of communication in the application layer and requires a standing TCP connection to transmit messages in a push manner.
 -  HOWEVER, MQTT ver 5 provides a new requset/response method to act in a way similiar to REST. The publisher can attach a special response topic, which the receiver processes and generated appropiate response.
 
-## MQTT vs HTTP
+## G. MQTT vs HTTP
 <img src="https://github.com/user-attachments/assets/4273d641-a3d3-4359-9ddb-4110280fb96f" width="500">
 
 
-## Quality Of Service (QoS)
+## H. Quality Of Service (QoS)
 - Is an agreement between sender and receiver on the guarantee of delivering a message.
 - Why its matter> improves reliability.
 - By raising the QoS level, you will increase the reliability of the communication, but you will decrease the performance.
@@ -177,7 +176,7 @@ QoS level: 1
     - Subscriber sends **pubrel** to broker
     - Broker sends **pubcomp** for final confirmation. 
 
-## ACKNOWLEDGEMENT
+## I. ACKNOWLEDGEMENT
 0 => Sucesses 
 
 128 or others => failed 
