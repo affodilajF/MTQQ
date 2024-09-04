@@ -29,7 +29,6 @@
 - Sync Decoupling
   - Both publishers and subscribers can send or receive messages without interrupting each other. For example, the subscriber does not have to wait for the publisher to send a message.
 - Messages are published to a broker on a topic.
-- MQTT brokers do not normally store messages.
 - Clients never connect with each other, only with the broker.
 
 ## MQTT Components
@@ -72,7 +71,7 @@ In MQTT.
        - Is to notify a subscriber that the publisher is unavailable due to network outage.
        - The last will message is set by the publishing client, and is set on a per topic basis which means that each topic can have its own last will message. (This means that each topic can have its own last will message associated with it.) The message is stored on the broker and sent to any subscribing client (to that topic) if the connection to the publisher fails.
 
-2) Once has been connected, client can EITHER publish messages, subscribe to specific messages, or do both.
+2) Once has been connected, broker will send back an **CONNACK** to the client. Then client can EITHER publish messages, subscribe to specific messages, or do both.
 3) When MQTT broker receives a message, it forwards its msg to subscribes who ARE INTERESTED.
 
 Let’s break down the details for further understanding.
@@ -150,6 +149,7 @@ Belum
   - Use it when have stable communication channel and when the loss of message is acceptable. 
 - ### 1 - At least once
   - Guarantees that a message is delivered at least one time to the receiver.
+  - The publisher will send messages repeatdly to the broker until the broker sends a **PUBACK** to the publisher to confirm that the message has been received by the broker. 
   - Use it when clients can tolerate duplicate messages. It’s the most used.
 - ### 2 - Exactly Once
   - Guarantees that message is received only once by the receiver.
