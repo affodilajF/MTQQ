@@ -51,7 +51,8 @@
 - Clients never connect with each other, only with the broker.
 
 ## How does MQTT work?
-![Screenshot 2024-09-04 124557](https://github.com/user-attachments/assets/0986fa94-4b9c-4c81-82f0-3a5e8cba7a2b)
+<img src="https://github.com/user-attachments/assets/0986fa94-4b9c-4c81-82f0-3a5e8cba7a2b" width="400" alt="Screenshot 2024-09-04 124557">
+
 
 In MQTT context, an MQTT client is a device that connects to an MQTT broker over a network. The service provided by the MQTT broker (server) is the possibility to publish and/or subscribe on one or many topics.
 In MQTT.
@@ -127,12 +128,28 @@ QoS level: 1
 -  HOWEVER, MQTT ver 5 provides a new requset/response method to act in a way similiar to REST. The publisher can attach a special response topic, which the receiver processes and generated appropiate response.
 
 ## MQTT vs HTTP
-![image](https://github.com/user-attachments/assets/4273d641-a3d3-4359-9ddb-4110280fb96f)
+<img src="https://github.com/user-attachments/assets/4273d641-a3d3-4359-9ddb-4110280fb96f" width="500">
 
 
+## Quality Of Service (QoS)
+- Is an agreement between sender and receiver on the guarantee of delivering a message.
+- Why its matter> improves reliability.
+- By raising the QoS level, you will increase the reliability of the communication, but you will decrease the performance.
+- Three levels
+### 0 - At most once (called "fire and forget")
+- No guarantee of delivery.
+- Use it when have stable communication channel and when the loss of message is acceptable. 
+### 1 - At least once
+- Guarantees that a message is delivered at least one time to the receiver.
+- Use it when clients can tolerate duplicate messages. It’s the most used.
+### 2 - Exactly Once
+- Guarantees that message is received only once by the receiver.
+- Use it when your application is critical and you cannot tolerate loss and duplicate messages.
 
 # -----------------------------------------------------------
 # 2) Android and MQTT
+- MQTT works on TCP/IP stack, this means that the only requirement of the mobile device is the capability to connect to the internet.
+- 
 
 
 
