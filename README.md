@@ -1,7 +1,7 @@
 # mqtt (Message Queuing Telemetry Transport)
 
 # Materials :
-### 1) Introduction MTQQ
+### 1) Introduction MQTT
 ### 2) Android and MQTT
 
 # Source :
@@ -12,7 +12,7 @@
 
 # -----------------------------------------------------------
 # 1) Introduction
-- MTQQ is message protocol to communicate between machine to machine also cloud to cloud.
+- MQTT is message protocol to communicate between machine to machine also cloud to cloud.
 - Smart sensor, IoT etc will send an data through network within limited resources and bandwidth.  
 - IoT use MQTT to tranmize the data bc of easy to apply and efficient.
 
@@ -123,8 +123,8 @@ QoS level: 1
 Belum
 
 ## MQTT over WSS?
-- MTQQ over WebSockets (WSS) is an MQTT implementation to receive data DIRECTLY INTO A WEB BROWSER. _
-- The MTQQ protocol defines a JS client to provide WSS support for the browsers. (in this case, the protocol works as usual but it adds additional headers to the MQTT messages to also support the WWS protocol.
+- MQTT over WebSockets (WSS) is an MQTT implementation to receive data DIRECTLY INTO A WEB BROWSER. _
+- The MQTT protocol defines a JS client to provide WSS support for the browsers. (in this case, the protocol works as usual but it adds additional headers to the MQTT messages to also support the WWS protocol.
 - You can think of it as the MQTT message payload wrapped in a WSS envelope.
 
 ## Is MQTT Secure?
