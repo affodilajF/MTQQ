@@ -1,12 +1,12 @@
-# mqtt
-### Message Queuing Telemetry Transport
+# mqtt (Message Queuing Telemetry Transport)
 
-# Topics
+# Materials :
 ### 1) Introduction MTQQ
 ### 2) Android and MQTT
 
 # Source :
 
+      http://www.steves-internet-guide.com/mqtt-works/
       https://aws.amazon.com/id/what-is/mqtt/
       https://medium.com/swlh/android-and-mqtt-a-simple-guide-cb0cbba1931c
 
@@ -21,22 +21,25 @@
 - The MQTT protocol works on the principle of publish/subscribe model.
 - Traditional network communication : The clients request resources or data from the server, then the server processes and sends back a response.
 - sender (publisher) send a message to receiver (subscriber), broker will filter an incoming messages and distribute them correctly.
-#### Rules :
+#### Note :
 - Space Decoupling
-  - Both publisher and subscriber are not aware of each other's network location and do not exchange informations (IP addresses or port numbers).
+  - Both publisher and subscriber **are not aware of each other's network location** and **do not exchange informations** (IP addresses or port numbers).
 - Time Decoupling
   - The publisher and subscriber dont run or have netwotk conectivity 
 - Sync Decoupling
   - Both publishers and subscribers can send or receive messages without interrupting each other. For example, the subscriber does not have to wait for the publisher to send a message.
+- Messages are published to a broker on a topic.
+- MQTT brokers do not normally store messages.
+- Clients never connect with each other, only with the broker.
 
-## MTQQ Components
-### MTQQ Client
+## MQTT Components
+### MQTT Client
 - Is a any devoce from a server to a microcontroller (is a single integrated circuit) that runs an MQTT lib.
 - Publisher => if the client act as a publisher.
 - Recevier => is the client act as receiver.
 - Any device that communicates using MQTT over a network can be called an MQTT client device.
   
-### MTQQ Broker
+### MQTT Broker
 - Is the backend system which coordinates messages between the different clients.
 - Responsibilities :
   - receiving and filtering msg
@@ -44,30 +47,31 @@
   - auth mqtt clients
   - passing messages to other systems
   - handling missed messages and client sessions
+- Popular Brokers : Eclipse Mosoquitto, HiveMQ, EMQX
     
-### MQTT Connection
-- Clients and brokers begin communicating by using an MQTT connection.
-- Clients initiate the connection by sending a CONNECT message to the MQTT broker.
-- The broker confirms that a connection has been established by responding with a CONNACK message.
-- Both the MQTT client and the broker require a TCP/IP stack to communicate.
-- Clients never connect with each other, only with the broker.
+
 
 ## How does MQTT work?
 <img src="https://github.com/user-attachments/assets/0986fa94-4b9c-4c81-82f0-3a5e8cba7a2b" width="400" alt="Screenshot 2024-09-04 124557">
-
+<img src="https://github.com/user-attachments/assets/d1075273-5d87-45e8-bcab-65f5c35f4440" width="400" alt="Screenshot 2024-09-04 124557">
+<img src="https://github.com/user-attachments/assets/72cfc7b5-5b90-45d5-9406-ad5f526d4c67" width="350" alt="Screenshot 2024-09-04 124557">
 
 In MQTT context, an MQTT client is a device that connects to an MQTT broker over a network. The service provided by the MQTT broker (server) is the possibility to publish and/or subscribe on one or many topics.
 In MQTT.
 
-1) Before starting the message exchange over topics, the client needs to initiate the communication by sending the CONNECT message to the broker. The MAIN informations as follow :
+1) Before starting the message exchange over topics, the client needs to initiate the communication by sending the **CONNECT message** to the broker. The MAIN informations as follow :
     - **`ClientID`**:
-      This identifier is used by the broker to recognize the client and store session information. An `empty ClientID` signifies an "anonymous" connection, meaning the broker will not retain any client-specific information.
+      - This identifier is used by the broker to recognize the client and store session information. An `empty ClientID` signifies an "anonymous" connection, meaning the broker will not retain any client-specific information.
    - **`CleanSession`**
+     - A clean session is one in which the broker isn’t expected to remember anything about the client when it disconnects. With a non clean session the broker will remember client subscriptions and may hold undelivered messages for the client (however it may depends on the QoS).
    - **`KeepAlive`**
-       Defines the maximum period of time that broker and client can remain in contact without sending a message. The client needs to send regular PING messages, within the KeepAlive period, to the broker to maintain the connection alive.
+       - Defines the maximum period of time that broker and client can remain in contact without sending a message. The client needs to send regular PING messages, within the KeepAlive period, to the broker to maintain the connection alive. MQTT clients publish a keepalive message at regular intervals (usually 60 seconds) which tells the broker that the client is still connected.
    - **`Username and Pass (optional)`**
-       Client can send usn and pass to imprv communication secuirity. 
+       - Client can send usn and pass to imprv communication secuirity. 
    - **`WillMessage (optional)`**
+       - Is to notify a subscriber that the publisher is unavailable due to network outage.
+       - The last will message is set by the publishing client, and is set on a per topic basis which means that each topic can have its own last will message. (This means that each topic can have its own last will message associated with it.)
+
 2) Once has been connected, client can EITHER publish messages, subscribe to specific messages, or do both.
 3) When MQTT broker receives a message, it forwards its msg to subscribes who ARE INTERESTED.
 
@@ -111,14 +115,14 @@ QoS level: 1
 Topic name: myhome/groundfloor/bathroom
 QoS level: 1
 ```
-#### MTQQ Unsubscribe
+#### MQTT Unsubscribe
 - To delete existing subscriptions to a topic, client sends a **UNSUBSCRIBE message** to the broker.
 - Content is the same as the SUBSCRIBE message: a list of subscriptions.
 
-#### MTQQ Disconnect
+#### MQTT Disconnect
 Belum
 
-## MTQQ over WSS?
+## MQTT over WSS?
 - MTQQ over WebSockets (WSS) is an MQTT implementation to receive data DIRECTLY INTO A WEB BROWSER. _
 - The MTQQ protocol defines a JS client to provide WSS support for the browsers. (in this case, the protocol works as usual but it adds additional headers to the MQTT messages to also support the WWS protocol.
 - You can think of it as the MQTT message payload wrapped in a WSS envelope.
@@ -150,13 +154,12 @@ Belum
 ### 2 - Exactly Once
 - Guarantees that message is received only once by the receiver.
 - Use it when your application is critical and you cannot tolerate loss and duplicate messages.
-
-## MTQQ Brokers 
-- Popular Brokers : Eclipse Mosoquitto, HiveMQ, EMQX
   
 # -----------------------------------------------------------
 # 2) Android and MQTT
 - MQTT works on TCP/IP stack, this means that the only requirement of the mobile device is the capability to connect to the internet.
+- TCP is a connection orientated protocol with error correction and guarantees that packets are received in order. Consider a TCP/IP connection to be similar to a telephone connection. Once a telephone connection is established you we talk over it until one party hangs up.
+- Most MQTT clients will connect to the broker and remain connected even if they aren’t sending data.
 
 
 ### Problems that could arise :
