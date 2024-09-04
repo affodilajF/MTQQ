@@ -70,7 +70,7 @@ In MQTT.
        - Client can send usn and pass to imprv communication secuirity. 
    - **`WillMessage (optional)`**
        - Is to notify a subscriber that the publisher is unavailable due to network outage.
-       - The last will message is set by the publishing client, and is set on a per topic basis which means that each topic can have its own last will message. (This means that each topic can have its own last will message associated with it.)
+       - The last will message is set by the publishing client, and is set on a per topic basis which means that each topic can have its own last will message. (This means that each topic can have its own last will message associated with it.) The message is stored on the broker and sent to any subscribing client (to that topic) if the connection to the publisher fails.
 
 2) Once has been connected, client can EITHER publish messages, subscribe to specific messages, or do both.
 3) When MQTT broker receives a message, it forwards its msg to subscribes who ARE INTERESTED.
