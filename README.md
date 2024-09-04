@@ -145,15 +145,15 @@ Belum
 - Why its matter> improves reliability.
 - By raising the QoS level, you will increase the reliability of the communication, but you will decrease the performance.
 - Three levels
-### 0 - At most once (called "fire and forget")
-- No guarantee of message delivery.
-- Use it when have stable communication channel and when the loss of message is acceptable. 
-### 1 - At least once
-- Guarantees that a message is delivered at least one time to the receiver.
-- Use it when clients can tolerate duplicate messages. It’s the most used.
-### 2 - Exactly Once
-- Guarantees that message is received only once by the receiver.
-- Use it when your application is critical and you cannot tolerate loss and duplicate messages.
+- ### 0 - At most once (called "fire and forget")
+  - No guarantee of message delivery.
+  - Use it when have stable communication channel and when the loss of message is acceptable. 
+- ### 1 - At least once
+  - Guarantees that a message is delivered at least one time to the receiver.
+  - Use it when clients can tolerate duplicate messages. It’s the most used.
+- ### 2 - Exactly Once
+  - Guarantees that message is received only once by the receiver.
+  - Use it when your application is critical and you cannot tolerate loss and duplicate messages.
   
 # -----------------------------------------------------------
 # 2) Android and MQTT
