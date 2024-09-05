@@ -50,8 +50,12 @@
   - handling missed messages and client sessions
 - Popular Brokers : Eclipse Mosoquitto, HiveMQ, EMQX
     
-
-## C. How does MQTT work?
+## C. MQTT Topic
+- Is an **string** which used to identify category in where the message will be send and receive.
+- Topics are organized hierarchy, similiar to a file/files in directory.
+- Ex : `home/livingroom/kitchen` `home/livingroom/beedroom1`
+  
+## D. How does MQTT work?
 <img src="https://github.com/user-attachments/assets/0986fa94-4b9c-4c81-82f0-3a5e8cba7a2b" width="400" alt="Screenshot 2024-09-04 124557">
 <img src="https://github.com/user-attachments/assets/d1075273-5d87-45e8-bcab-65f5c35f4440" width="400" alt="Screenshot 2024-09-04 124557">
 <img src="https://github.com/user-attachments/assets/72cfc7b5-5b90-45d5-9406-ad5f526d4c67" width="350" alt="Screenshot 2024-09-04 124557">
@@ -78,12 +82,7 @@ In MQTT.
 2) Broker will send an **CONNACK** to the client whether to connection is ok or refused. Once has been connected, client can EITHER publish messages, subscribe to specific messages, or do both.  If the client does not receive a CONNACK packet from the broker in time (usually a configurable timeout from the client side), it may actively close the network connection.
 3) When MQTT broker receives a message, it forwards its msg to subscribes who ARE INTERESTED.
 
-## D. MQTT Operations
-### MQTT Topic
-- Is an **string** which used to identify category in where the message will be send and receive.
-- Topics are organized hierarchy, similiar to a file/files in directory.
-- Ex : `home/livingroom/kitchen` `home/livingroom/beedroom1` 
-    
+## E. MQTT Packet
 ### MQTT Publish
 - A client writes data on a topic using the **PUBLISH message**.
 - MQTT clients publish messages that contain the topic and data in byte format.
@@ -138,25 +137,28 @@ QoS level: 1
 - MQTT Client is disconnect the connection to broker.
 - The client sends a disconnect message to the broker, but the broker does not automatically send a confirmation after the connection is disconnected. Namun, jika klien perlu memastikan bahwa koneksi telah diputuskan, maka klien dapat menunggu beberapa detik sebelum memastikan bahwa koneksi telah selesai.
 
-## E. MQTT over WSS?
+### MQTT Pingrep
+### MQTT Pingresp
+
+## F. MQTT over WSS?
 - MQTT over WebSockets (WSS) is an MQTT implementation to receive data DIRECTLY INTO A WEB BROWSER. _
 - The MQTT protocol defines a JS client to provide WSS support for the browsers. (in this case, the protocol works as usual but it adds additional headers to the MQTT messages to also support the WWS protocol.
 - You can think of it as the MQTT message payload wrapped in a WSS envelope.
 
-## F. Is MQTT Secure?
+## G. Is MQTT Secure?
 - Yes, it uses SSL protocol to protect sensitive data transmitted by IoT devices.
 - We can implememnt identity, authc, authr, between clients and the broker using SSL certifiactes and/or passwords.
 - The MQTT broker typically authenticates clients using their passwords as well as unique client identifiers it allocates to each client.
 
-## G. Is MQTT RESTful? NO
+## H. Is MQTT RESTful? NO
 - In contrast, MQTT uses the publish/subscribe model of communication in the application layer and requires a standing TCP connection to transmit messages in a push manner.
 -  HOWEVER, MQTT ver 5 provides a new requset/response method to act in a way similiar to REST. The publisher can attach a special response topic, which the receiver processes and generated appropiate response.
 
-## H. MQTT vs HTTP
+## I. MQTT vs HTTP
 <img src="https://github.com/user-attachments/assets/4273d641-a3d3-4359-9ddb-4110280fb96f" width="500">
 
 
-## I. Quality Of Service (QoS)
+## J. Quality Of Service (QoS)
 - Is an agreement between sender and receiver on the guarantee of delivering a message.
 - Why its matter> improves reliability.
 - By raising the QoS level, you will increase the reliability of the communication, but you will decrease the performance.
@@ -181,7 +183,7 @@ QoS level: 1
     - Subscriber sends **pubrel** to broker
     - Broker sends **pubcomp** for final confirmation. 
 
-## J. ACKNOWLEDGEMENT
+## K. ACKNOWLEDGEMENT 
 0 => Sucesses 
 
 128 or others => failed 
@@ -194,7 +196,6 @@ QoS level: 1
 - ### SUBBACK
   - To confirm whether the subscription request was successfully processed by the subscriber.
   - Sent by broker, received by subscriber. 
-
 
 
 # -----------------------------------------------------------
@@ -379,8 +380,20 @@ fun main() {
 ## I. Subscriptions Identifier
 ## J. Keep Alive
 - Defines the maximum period of time that broker and client can remain in contact without sending a message. **The client needs to send regular PING messages**, within the KeepAlive period, to the broker to maintain the connection alive. MQTT clients publish a keepalive message at regular intervals (usually 60 seconds) which tells the broker that the client is still connected.
-  
-## K. Message Expiry Interval 
+
+- The Keep Alive Process
+  - **Client Process**
+    - Client need to ensure that the interval between any two MQTT protocol packets it sends doesnt exceed the Keep Alive value.
+    - If the client is idle and has no packets to send, it can send **PINGREQ** packet, instead. Then the broker should return **PINGRESP** packet.
+  - **Broker Process**
+    -  If the broker does not receive any packets from the client within 1.5 times the Keep Alive time, it will assume that there is a problem with the connection to the client, and the broker will disconnect from the client.
+  - **Client Takeover Mechanism**
+    - 
+## K. Message Expiry Interval (MQTT 5)
+- By default the msg doesnt include the message expiry interval, means will never expire.
+- Allows publisher to set an expiry interval for time-sensitive messages.
+- If the message remains on the broker beyond this specified interval, the server will no longer distribute it to the subscribers.
+
 ## L. Maximum Packet Size
 ## M. Reason Codes & Quick Reference
 ## N. Enhanced Auth
