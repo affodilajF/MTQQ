@@ -27,5 +27,11 @@
   - `shrinkResources`
   - `debuggable`
 
+## Generate final class BuildConfig 
+```
+./gradlew clean
+./gradlew assembleDebug
+```
+
 
 
