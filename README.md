@@ -387,8 +387,6 @@ fun main() {
     - If the client is idle and has no packets to send, it can send **PINGREQ** packet, instead. Then the broker should return **PINGRESP** packet.
   - **Broker Process**
     -  If the broker does not receive any packets from the client within 1.5 times the Keep Alive time, it will assume that there is a problem with the connection to the client, and the broker will disconnect from the client.
-  - **Client Takeover Mechanism**
-    - 
 ## K. Message Expiry Interval (MQTT 5)
 - By default the msg doesnt include the message expiry interval, means will never expire.
 - Allows publisher to set an expiry interval for time-sensitive messages.
