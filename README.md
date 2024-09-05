@@ -271,10 +271,75 @@ QoS level: 1
   - More commonly used
   - Example of informations when publishing messages are number, timestamp, file, client information, routing information, etc.
   - There is the example :
+    ```
+    {
+        "topic": "sensors/temperature",
+        "payload": "22.5",
+        "qos": 1,
+        "retain": false,
+        "userProperties": {
+          "sensorId": "12345",
+          "location": "server-room",
+          "unit": "Celsius"
+        }
+      }
 
-  
-## E. Topic Alias
+    ```
+## E. Topic Alias (new feature in MQTT v5)
+- Allows users to reduce the possibly long and repeatedly used topic name to a 2-byte integer, so as to reduce the bandwidth consumption when publishing message.
+### Why use Topic Alias?
+- in MQTT v3 protocol, if the client needs to publish a large number of messages to the same topic (over the same MQTT connection), the topic name will be repeated in `PUBLISH` packets, causing waste of bandwidth resources and parsing UTF-8 string of the same topic name is also waste of computing resources for the server.
+- Example :
+``` kotlin
+import org.eclipse.paho.client.mqttv3.MqttClient
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions
+import org.eclipse.paho.client.mqttv3.MqttMessage
+import org.eclipse.paho.client.mqttv3.MqttException
+import org.eclipse.paho.client.mqttv3.MqttTopic
+import org.eclipse.paho.client.mqttv3.MqttMessageBuilder
+
+fun main() {
+    val brokerUrl = "tcp://broker.hivemq.com:1883"
+    val clientId = "mqtt-kotlin-client"
+
+    val client = MqttClient(brokerUrl, clientId)
+
+    val connOpts = MqttConnectOptions().apply {
+        isCleanSession = true
+    }
+
+    try {
+        client.connect(connOpts)
+        println("Connected to broker: $brokerUrl")
+
+        // Alias dan topik yang terkait
+        val topicAlias = 10
+        val topicName = "home/livingroom/temperature"
+
+        // Mengatur alias topik (harus dilakukan di sisi klien)
+        val topicAliasMap = mutableMapOf(topicAlias to topicName)
+
+        // Menerbitkan pesan dengan topik alias
+        val message = MqttMessage("22.5".toByteArray()).apply {
+            qos = 1
+            // Menggunakan alias topik
+            properties = MqttMessageBuilder().withTopicAlias(topicAlias).build().properties
+        }
+
+        client.publish(topicName, message)
+        println("Message published with topic alias $topicAlias")
+
+        client.disconnect()
+        println("Disconnected from broker")
+
+    } catch (e: MqttException) {
+        e.printStackTrace()
+    }
+}
+
+```
 ## F. Payload Format Indicator & Content Type 
+
 ## G. Shared Subscriptions 
 ## H. Subscriptions Options 
 ## I. Subscriptions Identifier
