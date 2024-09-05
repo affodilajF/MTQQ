@@ -70,13 +70,10 @@ In MQTT.
        **The premise of persistent session recovery is that the client reconnects with a fixed Client ID. If the Client ID is dynamic, then a new persistent session will be created.**
      - Set to `**true**` to create a new temporary session that is automatically destroyed when the client disconnects. 
    - **`KeepAlive`**
-       - Defines the maximum period of time that broker and client can remain in contact without sending a message. **The client needs to send regular PING messages**, within the KeepAlive period, to the broker to maintain the connection alive. MQTT clients publish a keepalive message at regular intervals (usually 60 seconds) which tells the broker that the client is still connected.
    - **`Username and Pass (optional)`**
        - Client can send usn and pass to imprv communication secuirity.
        - But, if the **underlying transport layer is not encrypted, the username and pass will be transmitted in plaintext**, use `mqtts` or `wss` ptotocol is recommended. 
    - **`WillMessage (optional)`**
-       - Is to notify a subscriber that the publisher is unavailable due to network outage.
-       - The last will message is set by the publishing client, and is set on a per topic basis which means that each topic can have its own last will message. (This means that each topic can have its own last will message associated with it.) The message is stored on the broker and sent to any subscribing client (to that topic) if the connection to the publisher fails.
 
 2) Broker will send an **CONNACK** to the client whether to connection is ok or refused. Once has been connected, client can EITHER publish messages, subscribe to specific messages, or do both.  If the client does not receive a CONNACK packet from the broker in time (usually a configurable timeout from the client side), it may actively close the network connection.
 3) When MQTT broker receives a message, it forwards its msg to subscribes who ARE INTERESTED.
@@ -249,6 +246,9 @@ QoS level: 1
   - For property that do not change requently => sensor version, serial number.
     
 ## B. Will Messages 
+- Is to notify a subscriber that the publisher is unavailable due to network outage.
+- The last will message is set by the publishing client, and is set on a per topic basis which means that each topic can have its own last will message. (This means that each topic can have its own last will message associated with it.) The message is stored on the broker and sent to any subscribing client (to that topic) if the connection to the publisher fails.
+
 - The Will Message is designed to **notify other clients when a client disconnects unexpectedly or unexpectedly terminates its connection**. This feature helps in maintaining the robustness of the messaging system by providing a way to handle situations where a client does not explicitly disconnect.
 - The will messages is registered on the server when connecting.
 - Similiar to normal messages, it contains topic, payload, and other fields of will message.
@@ -338,12 +338,48 @@ fun main() {
 }
 
 ```
-## F. Payload Format Indicator & Content Type 
+## F. Payload Format Indicator & Content Type (New in MQTT 5)
+#### Payload format indicator
+- To indicate the format of the payload in MQTT packets.
+- Packets fixed => Payload in connect, subs, unsb
+- In PUBLISH and CONNECT, packets need to declare the payload format.
+- Values :
+  - **0: Undefined** => The format of the payload is not specified or defined
+  - **1: UTF-8** => The payload is encoded using UTF-8 encoding (typically for textual data)
+- Use case :
+  - If a client sends a payload that is encoded in UTF-8 (such as a text message), it can set the Payload Format Indicator to 1. This allows the receiving client to know that it should interpret the payload as UTF-8 encoded text.
+
+#### Content Type 
+- Is a property that specifies the type of content or the MIME type of the payload.
+- This helps clients understand the nature of the payload, such as whether it is JSON, XML, or some other format.
+- MIME types :
+  - `application/json`
+  - `text/plain`
+  - `application/xml`
+- Example use case:
+  - If a message payload contains JSON data, the sender can specify the Content Type as application/json. This allows the receiver to correctly parse the payload as JSON.
+  ```json
+  {
+        "topic": "sensors/temperature",
+        "payload": "{\"temperature\": 22.5}",
+        "qos": 1,
+        "retain": false,
+        "properties": {
+          "contentType": "application/json"  // Payload is in JSON format
+        }
+  }
+
+  ```
+
+#### Do we have to use Payload Format Indicator and Content Type Indicator TOGETHER?
+- https://www.emqx.com/en/blog/mqtt5-new-features-payload-format-indicator-and-content-type 
 
 ## G. Shared Subscriptions 
 ## H. Subscriptions Options 
 ## I. Subscriptions Identifier
 ## J. Keep Alive
+- Defines the maximum period of time that broker and client can remain in contact without sending a message. **The client needs to send regular PING messages**, within the KeepAlive period, to the broker to maintain the connection alive. MQTT clients publish a keepalive message at regular intervals (usually 60 seconds) which tells the broker that the client is still connected.
+  
 ## K. Message Expiry Interval 
 ## L. Maximum Packet Size
 ## M. Reason Codes & Quick Reference
