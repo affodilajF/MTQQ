@@ -77,7 +77,6 @@ In MQTT.
    - **`WillMessage (optional)`**
        - Is to notify a subscriber that the publisher is unavailable due to network outage.
        - The last will message is set by the publishing client, and is set on a per topic basis which means that each topic can have its own last will message. (This means that each topic can have its own last will message associated with it.) The message is stored on the broker and sent to any subscribing client (to that topic) if the connection to the publisher fails.
-       - Contains Topic, Payload, QoS, Retain, etc.
 
 2) Broker will send an **CONNACK** to the client whether to connection is ok or refused. Once has been connected, client can EITHER publish messages, subscribe to specific messages, or do both.  If the client does not receive a CONNACK packet from the broker in time (usually a configurable timeout from the client side), it may actively close the network connection.
 3) When MQTT broker receives a message, it forwards its msg to subscribes who ARE INTERESTED.
@@ -239,9 +238,41 @@ QoS level: 1
 # 3) MQTT Advanced 
 
 ## A. Retained Messages
+- Theres a flag named `Retain`
+-  If set to true, the broker stores the last message sent on a topic and delivers it to any new subscriber to that topic.
+#### When to use? 
+- In some scenarios, the disadvantage of publish-subs pattern is inconvenient, the subscriber cannot actively fetch message from the publisher.
+- So, with retained messages, new subscriber will get the latest data immediately without waiting unpredictable times.
+- Here are some example :
+  - Smart home devices only send data when state changes, but the control app needs to know the device's current state whenever the user opens the app.
+  - The interval between sensors reporting data can be very long.
+  - For property that do not change requently => sensor version, serial number.
+    
 ## B. Will Messages 
+- The Will Message is designed to **notify other clients when a client disconnects unexpectedly or unexpectedly terminates its connection**. This feature helps in maintaining the robustness of the messaging system by providing a way to handle situations where a client does not explicitly disconnect.
+- The will messages is registered on the server when connecting.
+- Similiar to normal messages, it contains topic, payload, and other fields of will message.
+- Use Cases :
+  - **Alerting** => Alert other clients about device/service that has gone offline unexpectedly.
+    
 ## C. Request/response 
-## D. User Properties 
+- 
+## D. User Properties (familiar concept to HTTP header) ( > MQTT 5.0)
+- Are the user-defined propertied that allow users to add their metadata to MQTT messages and transmit additional user-definer information.
+- User Properties consist of a user-defined **UTF-8 key/value pair** array configured in the message property field.
+- To transfer metadata.
+- Cara lain klo mau datanya dikirim selain dari payload. 
+
+#### Two scenario to use user properties :
+- **User Properties of the connected client**
+  - Client to broker (when the client initiates a connection with the MQTT broker).
+- **User Properties during message publishing**
+  - Client to client
+  - More commonly used
+  - Example of informations when publishing messages are number, timestamp, file, client information, routing information, etc.
+  - There is the example :
+
+  
 ## E. Topic Alias
 ## F. Payload Format Indicator & Content Type 
 ## G. Shared Subscriptions 
