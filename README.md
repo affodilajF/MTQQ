@@ -3,15 +3,17 @@
 # Materials :
 ### 1) Introduction MQTT
 ### 2) Android and MQTT
+### 3) MQTT Advanced
 
 # Source :
 
       http://www.steves-internet-guide.com/mqtt-works/
       https://aws.amazon.com/id/what-is/mqtt/
       https://medium.com/swlh/android-and-mqtt-a-simple-guide-cb0cbba1931c
+      https://www.emqx.com/en/mqtt-guide
 
 # -----------------------------------------------------------
-# 1) Introduction
+# 1) Introduction MQTT
 - MQTT is message protocol to communicate between machine to machine also cloud to cloud.
 - Smart sensor, IoT etc will send an data through network within limited resources and bandwidth.  
 - IoT use MQTT to tranmize the data bc of easy to apply and efficient.
@@ -57,20 +59,27 @@
 In MQTT context, an MQTT client is a device that connects to an MQTT broker over a network. The service provided by the MQTT broker (server) is the possibility to publish and/or subscribe on one or many topics.
 In MQTT.
 
-1) Before starting the message exchange over topics, the client needs to initiate the communication by sending the **CONNECT message** to the broker. The MAIN informations as follow :
+1) Before starting the message exchange over topics, the client needs to initiate the communication by sending the **CONNECT message** to the broker. The MAIN informations/connection parameters as follow :
     - **`ClientID`**:
       - This identifier is used by the broker to recognize the client and store session information. An `empty ClientID` signifies an "anonymous" connection, meaning the broker will not retain any client-specific information.
+      - **Due to the uniqueness nature of the Client ID, if two clients connect to the same broker with the same Client ID, the client connects later will force the one connected earlier to go offline.**
    - **`CleanSession`**
      - A clean session is one in which the broker isn’t expected to remember anything about the client when it disconnects. With a non clean session the broker will remember client subscriptions and may hold undelivered messages for the client (however it may depends on the QoS).
+     - Set to `**false**` means to create a presistent session. When client disconnectes, the session remains and saves offline message until the session expires. It makes possible for the subscribe client to receive messages while it has gone offline. The duration of presistent sessions depends on the broker's settings, maybe 5 mins.
+     - Note:
+       **The premise of persistent session recovery is that the client reconnects with a fixed Client ID. If the Client ID is dynamic, then a new persistent session will be created.**
+     - Set to `**true**` to create a new temporary session that is automatically destroyed when the client disconnects. 
    - **`KeepAlive`**
-       - Defines the maximum period of time that broker and client can remain in contact without sending a message. The client needs to send regular PING messages, within the KeepAlive period, to the broker to maintain the connection alive. MQTT clients publish a keepalive message at regular intervals (usually 60 seconds) which tells the broker that the client is still connected.
+       - Defines the maximum period of time that broker and client can remain in contact without sending a message. **The client needs to send regular PING messages**, within the KeepAlive period, to the broker to maintain the connection alive. MQTT clients publish a keepalive message at regular intervals (usually 60 seconds) which tells the broker that the client is still connected.
    - **`Username and Pass (optional)`**
-       - Client can send usn and pass to imprv communication secuirity. 
+       - Client can send usn and pass to imprv communication secuirity.
+       - But, if the **underlying transport layer is not encrypted, the username and pass will be transmitted in plaintext**, use `mqtts` or `wss` ptotocol is recommended. 
    - **`WillMessage (optional)`**
        - Is to notify a subscriber that the publisher is unavailable due to network outage.
        - The last will message is set by the publishing client, and is set on a per topic basis which means that each topic can have its own last will message. (This means that each topic can have its own last will message associated with it.) The message is stored on the broker and sent to any subscribing client (to that topic) if the connection to the publisher fails.
+       - Contains Topic, Payload, QoS, Retain, etc.
 
-2) Broker will send an **CONNACK** to the client whether to connection is ok or refused. Once has been connected, client can EITHER publish messages, subscribe to specific messages, or do both.
+2) Broker will send an **CONNACK** to the client whether to connection is ok or refused. Once has been connected, client can EITHER publish messages, subscribe to specific messages, or do both.  If the client does not receive a CONNACK packet from the broker in time (usually a configurable timeout from the client side), it may actively close the network connection.
 3) When MQTT broker receives a message, it forwards its msg to subscribes who ARE INTERESTED.
 
 Let’s break down the details for further understanding.
@@ -226,6 +235,24 @@ QoS level: 1
   - Use for handle device restarts.  
 
 
+# -----------------------------------------------------------
+# 3) MQTT Advanced 
+
+## A. Retained Messages
+## B. Will Messages 
+## C. Request/response 
+## D. User Properties 
+## E. Topic Alias
+## F. Payload Format Indicator & Content Type 
+## G. Shared Subscriptions 
+## H. Subscriptions Options 
+## I. Subscriptions Identifier
+## J. Keep Alive
+## K. Message Expiry Interval 
+## L. Maximum Packet Size
+## M. Reason Codes & Quick Reference
+## N. Enhanced Auth
+## O. Control Packets
 
 
 
