@@ -393,9 +393,22 @@ fun main() {
 - If the message remains on the broker beyond this specified interval, the server will no longer distribute it to the subscribers.
 
 ## L. Maximum Packet Size
+
 ## M. Reason Codes & Quick Reference
 ## N. Enhanced Auth
 ## O. Control Packets
+- Currently, MQTT defines 15 types of control packets.Categorize these packets into three caregories : connection, publishing, and subscribing.
+
+<img src="https://github.com/user-attachments/assets/b139edd2-90c6-4c86-abf5-bb4314d25bb8" width="350" alt="Screenshot 2024-09-04 124557">
+
+### MQTT Packet Format 
+- Regardless of the type of control packet, they all consist of three parts => Fixed header, Variable header, Payload.
+- **Fixed Header**
+  - Consists three fields => MQTT Control Packet Type, Flags, Remaining Length
+  -  Unsigned integer represents the type of the current packet. 1 indicates `CONNECT` packet, 2 indicates `CONNACK` packet, so on.
+  - **MQTT Control Packet Type**
+  - <img src="https://github.com/user-attachments/assets/12561ac0-2aa7-40b4-aafb-885eb599af96" width="350" alt="Screenshot 2024-09-04 124557">
+
 
 
 
