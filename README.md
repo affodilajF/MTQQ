@@ -78,7 +78,7 @@ In MQTT.
 2) Broker will send an **CONNACK** to the client whether to connection is ok or refused. Once has been connected, client can EITHER publish messages, subscribe to specific messages, or do both.  If the client does not receive a CONNACK packet from the broker in time (usually a configurable timeout from the client side), it may actively close the network connection.
 3) When MQTT broker receives a message, it forwards its msg to subscribes who ARE INTERESTED.
 
-Let’s break down the details for further understanding.
+## D. MQTT Operations
 ### MQTT Topic
 - Is an **string** which used to identify category in where the message will be send and receive.
 - Topics are organized hierarchy, similiar to a file/files in directory.
@@ -138,25 +138,25 @@ QoS level: 1
 - MQTT Client is disconnect the connection to broker.
 - The client sends a disconnect message to the broker, but the broker does not automatically send a confirmation after the connection is disconnected. Namun, jika klien perlu memastikan bahwa koneksi telah diputuskan, maka klien dapat menunggu beberapa detik sebelum memastikan bahwa koneksi telah selesai.
 
-## D. MQTT over WSS?
+## E. MQTT over WSS?
 - MQTT over WebSockets (WSS) is an MQTT implementation to receive data DIRECTLY INTO A WEB BROWSER. _
 - The MQTT protocol defines a JS client to provide WSS support for the browsers. (in this case, the protocol works as usual but it adds additional headers to the MQTT messages to also support the WWS protocol.
 - You can think of it as the MQTT message payload wrapped in a WSS envelope.
 
-## E. Is MQTT Secure?
+## F. Is MQTT Secure?
 - Yes, it uses SSL protocol to protect sensitive data transmitted by IoT devices.
 - We can implememnt identity, authc, authr, between clients and the broker using SSL certifiactes and/or passwords.
 - The MQTT broker typically authenticates clients using their passwords as well as unique client identifiers it allocates to each client.
 
-## F. Is MQTT RESTful? NO
+## G. Is MQTT RESTful? NO
 - In contrast, MQTT uses the publish/subscribe model of communication in the application layer and requires a standing TCP connection to transmit messages in a push manner.
 -  HOWEVER, MQTT ver 5 provides a new requset/response method to act in a way similiar to REST. The publisher can attach a special response topic, which the receiver processes and generated appropiate response.
 
-## G. MQTT vs HTTP
+## H. MQTT vs HTTP
 <img src="https://github.com/user-attachments/assets/4273d641-a3d3-4359-9ddb-4110280fb96f" width="500">
 
 
-## H. Quality Of Service (QoS)
+## I. Quality Of Service (QoS)
 - Is an agreement between sender and receiver on the guarantee of delivering a message.
 - Why its matter> improves reliability.
 - By raising the QoS level, you will increase the reliability of the communication, but you will decrease the performance.
@@ -181,7 +181,7 @@ QoS level: 1
     - Subscriber sends **pubrel** to broker
     - Broker sends **pubcomp** for final confirmation. 
 
-## I. ACKNOWLEDGEMENT
+## J. ACKNOWLEDGEMENT
 0 => Sucesses 
 
 128 or others => failed 
