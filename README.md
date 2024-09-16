@@ -125,6 +125,8 @@ In MQTT.
        - Client can send usn and pass to imprv communication secuirity.
        - But, if the **underlying transport layer is not encrypted, the username and pass will be transmitted in plaintext**, use `mqtts` or `wss` ptotocol is recommended. 
    - **`WillMessage (optional)`**
+   - **`Connect Timeout`**
+     - The waiting time before receiving the broker CONNACK packet, if the CONNACK is not received within this time, the connection is closed.
 
 2) Broker will send an **CONNACK** to the client whether to connection is ok or refused. Once has been connected, client can EITHER publish messages, subscribe to specific messages, or do both.  If the client does not receive a CONNACK packet from the broker in time (usually a configurable timeout from the client side), it may actively close the network connection.
 3) When MQTT broker receives a message, it forwards its msg to subscribes who ARE INTERESTED.
