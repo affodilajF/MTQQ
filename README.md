@@ -54,6 +54,53 @@
 - Is an **string** which used to identify category in where the message will be send and receive.
 - Topics are organized hierarchy, similiar to a file/files in directory.
 - Ex : `home/livingroom/kitchen` `home/livingroom/beedroom1`
+
+### 1) MQTT Wilcard
+- Special type of topic that can **only be used for subscription and not publishing.**
+- Clients can subs to wildcard topic to receive messages form multiple matching topics, eliminating the need to subscribe to each topic individually and reducing overhead.
+- MQTT supports two type of wildcard, single level (+) and multi level (#)
+  - **Single Level**
+    - Suport SATU level setelahnya
+    - Subscribe to ``home/livingroom/+``
+    - Means subscribe to ``home/livingroom/1`` ``home/livingroom/humidity``
+  - **Multi Level**
+    - Support semua level setelahnya
+    - Subscribe to ``home/livingroom/+``
+    - Means subscribe to ``home/livingroom/1`` ``home/livingroom/humidity/1`` ``home/livingroom/humidity/etc``
+
+**DO WILDCARD SUBSCRIPTIONS DEGRADE PERFOMANCE?**
+- The broker may require more resources than non-wildcard topics. It is a **wise choice if the wildcard subs can be avoided**.
+-  Alternative to avoid wildcard => Consolidated Topic with Payload Encoding. Eum how?
+
+
+**Wildcard Approach :**
+- Publisher topics :
+  - ``device-id/stream1/foo``
+  - ``device-id/stream1/bar``
+- Subscriber subscription :
+  - ``device-id/stream1/#``
+    
+**Consolidated Topic with Payload Encoding**
+- Publisher topics :
+  - ``device-id/stream1``
+- Subscriber subscription :
+  - ``device-id/stream1``
+- Use single topic (device-id/stream) for all msg, regardless their type
+- The differentiation between message types (such as foo and bar) is handled within the payload.
+<img src="https://github.com/user-attachments/assets/6429c5e2-f7fa-4f9d-8809-1d314617351f" width="400" alt="Screenshot 2024-09-04 124557">
+<img src="https://github.com/user-attachments/assets/503f2556-9c20-4deb-a847-fe4a4432ea8d" width="400" alt="Screenshot 2024-09-04 124557">
+  
+### 2) Topic Beginning with $
+- The topic starting with ``$SYS/`` are system topics used to get metadata about MQTTS broker's running status, statc, client online/offline etc.
+
+### 3) BEST Partices for MQTT topics
+- Do not use # to subs to all topics
+- Topics should not start or end with /
+- Do not use spaces and non-ASCII characters in the topic
+- Use _ or - to connect words (or camel case) within a topic level
+- Try to use less topic levels
+- Try to model the message data schema in favor to avoid using wildcard topics
+  
   
 ## D. How does MQTT work?
 <img src="https://github.com/user-attachments/assets/0986fa94-4b9c-4c81-82f0-3a5e8cba7a2b" width="400" alt="Screenshot 2024-09-04 124557">
