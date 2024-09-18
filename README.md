@@ -9,7 +9,9 @@ https://www.mongodb.com/docs/atlas/device-sdks/sdk/kotlin/
 ## 2. Data Model
 - Adalah cara untuk mendefinisikan struktur data yang akan disimpan di database. 
 ### RealmObject
-- Setiap model di Realm adalah kelas Kotlin yang mewarisi RealmObject. Realm akan mengelola objek tersebut di database. 
+- Setiap model di Realm adalah kelas Kotlin yang mewarisi RealmObject. Realm akan mengelola objek tersebut di database.
+- Realm objects harus inherit dari ``RealmObject`` atau turunanya ``EmbededRealmObject`` or ``AsymmetricRealmObject``.
+- Ga support inheritence dari custom base classes.
 - Contoh :
   ``` kotlin
   open class User(
@@ -25,6 +27,28 @@ https://www.mongodb.com/docs/atlas/device-sdks/sdk/kotlin/
       var timestamp: Long = 0
   ) : RealmObject()
   ```
+#### a) Embedded Object Type 
+- Embeded object di-treat sebagai nested data inside of a single specific parent object.
+- Constraints :
+  - Memerlukan parent object dan gabisa exist sebagai independent realm object. If the parent object no longer references the embedded object, the embedded object is automatically deleted.
+  - Mewarisi lifecycle dari objek parent. Kalo parent objek di delete, otomatis embedded objek juga di delete. 
+  - Satu anak memiliki satu parent. Embedded objects have strict ownership with their parent object. You cannot reassign an embedded object to a different parent object, or share an embedded object between multiple parent objects.
+  - GAPUNYA PRIMARY KEY
+  - contoh :
+    ```kotlin
+    // Implements `EmbeddedRealmObject` interface
+    class EmbeddedAddress : EmbeddedRealmObject {
+        // CANNOT have primary key
+        var street: String? = null
+        var city: String? = null
+        var state: String? = null
+        var postalCode: String? = null
+        var propertyOwner: Contact? = null
+    }
+    ```
+
+#### b) Asymmetric Object Type 
+- Adalah **INSERT ONLY** object yang bertujuan untuk digunakan dengan Atlas Device Sync feature Data Ingest. 
 
 ### Anotasi 
 - **@PrimaryKey**
@@ -33,6 +57,9 @@ https://www.mongodb.com/docs/atlas/device-sdks/sdk/kotlin/
   - Digunakan untuk menyimpan objek di dalam objek lain tanpa membuat entitas terpisah.
 - **@Ignore**
   - Digunakan untuk atribut yang tidak perlu disimpan di database. Cuma kesimpen di apps aja, misal atribut sementara atau hasil kalkulasi.
+
+### Collection Properties 
+- Objek yang 
 
 ### Relasi Data 
 - One to One
