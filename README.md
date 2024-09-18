@@ -8,7 +8,7 @@ https://www.mongodb.com/docs/atlas/device-sdks/sdk/kotlin/
 
 ## 2. Data Model
 - Adalah cara untuk mendefinisikan struktur data yang akan disimpan di database. 
-### RealmObject
+### 2. 1 RealmObject
 - Setiap model di Realm adalah kelas Kotlin yang mewarisi RealmObject. Realm akan mengelola objek tersebut di database.
 - Realm objects harus inherit dari ``RealmObject`` atau turunanya ``EmbededRealmObject`` or ``AsymmetricRealmObject``.
 - Ga support inheritence dari custom base classes.
@@ -27,7 +27,7 @@ https://www.mongodb.com/docs/atlas/device-sdks/sdk/kotlin/
       var timestamp: Long = 0
   ) : RealmObject()
   ```
-#### a) Embedded Object Type 
+#### 2.1.1 Embedded Object Type 
 - Embeded object di-treat sebagai nested data inside of a single specific parent object.
 - Constraints :
   - Memerlukan parent object dan gabisa exist sebagai independent realm object. If the parent object no longer references the embedded object, the embedded object is automatically deleted.
@@ -47,10 +47,10 @@ https://www.mongodb.com/docs/atlas/device-sdks/sdk/kotlin/
     }
     ```
 
-#### b) Asymmetric Object Type 
+#### 2.1.2 Asymmetric Object Type 
 - Adalah **INSERT ONLY** object yang bertujuan untuk digunakan dengan Atlas Device Sync feature Data Ingest. 
 
-### Anotasi 
+### 2.2 Anotasi 
 - **@PrimaryKey**
   - PK
 - **@Embeded**
@@ -58,10 +58,10 @@ https://www.mongodb.com/docs/atlas/device-sdks/sdk/kotlin/
 - **@Ignore**
   - Digunakan untuk atribut yang tidak perlu disimpan di database. Cuma kesimpen di apps aja, misal atribut sementara atau hasil kalkulasi.
 
-### Collection Properties 
+### 2.3 Collection Properties 
 - Objek yang 
 
-### Relasi Data 
+### 2.4 Relasi Data 
 - One to One
   - Post memiliki referensi ke user.
 - One to Many
