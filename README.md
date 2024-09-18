@@ -223,7 +223,7 @@ https://www.mongodb.com/docs/atlas/device-sdks/sdk/kotlin/
   
 ## 5. Real-Time Updates 
 - Memungkinkan aplikasi menerima pembaruan data secara otomatis ketika data dalam database berubah. 
-### Change Listener
+### 5.1 Change Listener
 - Mendengarkan perubahan pada **objek atau hasil query** secara realtime. Ketika data berubah, listener akan dipanggil, nah lalu bisa update UI.
 - Contoh :
 ```kotlin
@@ -252,7 +252,7 @@ realm.executeTransaction { transactionRealm ->
 post?.removeChangeListener { listener }  // Menghapus listener
 ```
   
-### Live Data Integration
+### 5.2 Live Data Integration
 - LiveData adalah komponen arsitektur Android yang memungkinkan pengembangan aplikasi yang responsif dan memudahkan pengelolaan UI. Integrasi Realm dengan LiveData memungkinkan kamu untuk memanfaatkan keunggulan kedua teknologi tersebut, sehingga UI dapat merespon perubahan data secara otomatis.
 - Contoh :
   
