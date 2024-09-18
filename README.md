@@ -59,7 +59,67 @@ https://www.mongodb.com/docs/atlas/device-sdks/sdk/kotlin/
   - Digunakan untuk atribut yang tidak perlu disimpan di database. Cuma kesimpen di apps aja, misal atribut sementara atau hasil kalkulasi.
 
 ### 2.3 Collection Properties 
-- Objek yang 
+- Objek yang punya >0 objek (yayayaya itulah)
+- Homogenous
+- ``RealmList`` ``RealmSet`` ``RealmDictinoary``
+- Collections juga bisa mendefinisikan TO MANY relationships diantara realm object.
+- **Define a RealmList**
+  ```kotlin
+    // RealmList<E> can be any supported primitive
+    // or BSON type, a RealmObject, or an EmbeddedRealmObject
+    class Frog : RealmObject {
+        var _id: ObjectId = ObjectId()
+        var name: String = ""
+        // List of RealmObject type (CANNOT be nullable)
+        var favoritePonds: RealmList<Pond> = realmListOf()
+        // List of EmbeddedRealmObject type (CANNOT be nullable)
+        var favoriteForests: RealmList<EmbeddedForest> = realmListOf()
+        // List of primitive type (can be nullable)
+        var favoriteWeather: RealmList<String?> = realmListOf()
+    }
+    
+    class Pond : RealmObject {
+        var _id: ObjectId = ObjectId()
+        var name: String = ""
+    }
+  ```
+- **Define a RealmSet**
+- jika kamu membutuhkan urutan dan mungkin duplikasi. (arraylist)
+  ```kotlin
+    // RealmSet<E> can be any supported primitive or
+    // BSON type or a RealmObject
+    class Frog : RealmObject {
+        var _id: ObjectId = ObjectId()
+        var name: String = ""
+        // Set of RealmObject type (CANNOT be nullable)
+        var favoriteSnacks: RealmSet<Snack> = realmSetOf()
+        // Set of primitive type (can be nullable)
+        var favoriteWeather: RealmSet<String?> = realmSetOf()
+    }
+    
+    class Snack : RealmObject {
+        var _id: ObjectId = ObjectId()
+        var name: String = ""
+    }
+  ```
+- **Define a RealmDictinoary/RealmMap**
+- jika kamu memerlukan kumpulan unik tanpa urutan. (hashset)
+  ```kotlin
+  // RealmDictionary<K, V> can be any supported
+  // primitive or BSON types, a RealmObject, or
+  // an EmbeddedRealmObject
+  class Frog : RealmObject {
+      var _id: ObjectId = ObjectId()
+      var name: String = ""
+      // Dictionary of RealmObject type (value MUST be nullable)
+      var favoriteFriendsByPond: RealmDictionary<Frog?> = realmDictionaryOf()
+      // Dictionary of EmbeddedRealmObject type (value MUST be nullable)
+      var favoriteTreesInForest: RealmDictionary<EmbeddedForest?> = realmDictionaryOf()
+      // Dictionary of primitive type (value can be nullable)
+      var favoritePondsByForest: RealmDictionary<String?> = realmDictionaryOf()
+  }
+
+  ```
 
 ### 2.4 Relasi Data 
 - One to One
