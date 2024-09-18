@@ -1,5 +1,5 @@
 
-# REALM vs ROOM vs SQLite Comparation
+# REALM vs ROOM vs SQLite Comparison
 
 ## SQLite
 - Stores data in tabular format (consists of rows and columns)
