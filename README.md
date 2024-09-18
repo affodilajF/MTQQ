@@ -34,18 +34,10 @@ https://www.mongodb.com/docs/atlas/device-sdks/sdk/kotlin/
   - Mewarisi lifecycle dari objek parent. Kalo parent objek di delete, otomatis embedded objek juga di delete. 
   - Satu anak memiliki satu parent. Embedded objects have strict ownership with their parent object. You cannot reassign an embedded object to a different parent object, or share an embedded object between multiple parent objects.
   - GAPUNYA PRIMARY KEY
-  - contoh :
-    ```kotlin
-    // Implements `EmbeddedRealmObject` interface
-    class EmbeddedAddress : EmbeddedRealmObject {
-        // CANNOT have primary key
-        var street: String? = null
-        var city: String? = null
-        var state: String? = null
-        var postalCode: String? = null
-        var propertyOwner: Contact? = null
-    }
-    ```
+  - Can be used in :
+  - **One to One relationships**
+  - **One to Many**
+  - **Inverse Relationship**
 
 #### 2.1.2 Asymmetric Object Type 
 - Adalah **INSERT ONLY** object yang bertujuan untuk digunakan dengan Atlas Device Sync feature Data Ingest. 
@@ -142,6 +134,10 @@ https://www.mongodb.com/docs/atlas/device-sdks/sdk/kotlin/
       var posts: RealmList<Post> = RealmList()  // Daftar postingan
   ) : RealmObject()
   ```
+
+#### 2.4.1 Define a To-One Relationship Property
+#### 2.4.2 Define a To-Many Relationship Property
+#### 2.4.3 Define an Inverse Relationship
 
 ## 3. CRUD Operations
 - Create
@@ -338,9 +334,11 @@ try {
 - Validasi data sebelum menyimpan (untuk mengurangi kesalahan)
 - Error Handling
 
-## 8. Data Migration
+## 8. Data Migration (Change an Object Model)
 - Data migration adalah proses penting dalam pengelolaan database, terutama ketika ada perubahan pada skema data.
-- Di Realm, migrasi skema memungkinkan untuk mengelola perubahan pada struktur data tanpa kehilangan data yang sudah ada. 
+- Di Realm, migrasi skema memungkinkan untuk mengelola perubahan pada struktur data tanpa kehilangan data yang sudah ada.
+- the changes can be automatically applied or require a manual update to the new schema.
+- 
 ### Schema Migration
 - Schema migration diperlukan ketika ada perubahan dalam model data, seperti penambahan atau penghapusan properti, perubahan tipe data, atau modifikasi struktur objek.
 - Realm memerlukan informasi tentang versi skema yang sedang digunakan untuk melakukan migrasi data dengan benar.
