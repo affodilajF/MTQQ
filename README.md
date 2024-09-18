@@ -249,12 +249,23 @@ try {
 - Validasi data sebelum menyimpan (untuk mengurangi kesalahan)
 - Error Handling
 
-## Data Migration
+## 8. Data Migration
 - Data migration adalah proses penting dalam pengelolaan database, terutama ketika ada perubahan pada skema data.
 - Di Realm, migrasi skema memungkinkan untuk mengelola perubahan pada struktur data tanpa kehilangan data yang sudah ada. 
 ### Schema Migration
 - Schema migration diperlukan ketika ada perubahan dalam model data, seperti penambahan atau penghapusan properti, perubahan tipe data, atau modifikasi struktur objek.
 - Realm memerlukan informasi tentang versi skema yang sedang digunakan untuk melakukan migrasi data dengan benar.
 ### Migrations API 
+
+## 9. Integrasi Realm dengan Arsitektur Aplikasi
+## 10. Integrasi Realm dengan KOIN DI
+```kotlin
+val appModule = module {
+    // Provide Realm instance
+    single { Realm.getDefaultInstance() }
+}
+```
+## 11. Keamanan dan Enkripsi
+## 12. Optimasi dan Memori
 
 
