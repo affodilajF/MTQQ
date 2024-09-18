@@ -56,6 +56,7 @@ https://www.mongodb.com/docs/atlas/device-sdks/sdk/kotlin/
 - ``RealmList`` ``RealmSet`` ``RealmDictinoary``
 - Collections juga bisa mendefinisikan TO MANY relationships diantara realm object.
 - **Define a RealmList**
+- jika kamu membutuhkan urutan dan mungkin duplikasi. (arraylist)
   ```kotlin
     // RealmList<E> can be any supported primitive
     // or BSON type, a RealmObject, or an EmbeddedRealmObject
@@ -76,7 +77,7 @@ https://www.mongodb.com/docs/atlas/device-sdks/sdk/kotlin/
     }
   ```
 - **Define a RealmSet**
-- jika kamu membutuhkan urutan dan mungkin duplikasi. (arraylist)
+- jika kamu memerlukan kumpulan unik tanpa urutan. (hashset)
   ```kotlin
     // RealmSet<E> can be any supported primitive or
     // BSON type or a RealmObject
@@ -95,7 +96,6 @@ https://www.mongodb.com/docs/atlas/device-sdks/sdk/kotlin/
     }
   ```
 - **Define a RealmDictinoary/RealmMap**
-- jika kamu memerlukan kumpulan unik tanpa urutan. (hashset)
   ```kotlin
   // RealmDictionary<K, V> can be any supported
   // primitive or BSON types, a RealmObject, or
