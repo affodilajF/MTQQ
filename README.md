@@ -16,16 +16,13 @@
   - It’s a nightmare when we have to merge multiple tables in Realm.
   - Realm does not support inheritance.
   - Realm does not work with data classes you need to use regular open classes.
-- Why realm? if your app are :
-  - 
+ 
 
 ## ROOM
 - Not a db, but simply a layer of top of SQLite
 - Limitations :
   - SQLite creates temporary journal files which when not deleted properly could lead to issues.
-  - Basic understanding to SQL.
-- Why room? if your app are :
-  - 
+  - Basic understanding to SQL.  
 
 
 ## Comparation 
