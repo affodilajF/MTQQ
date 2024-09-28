@@ -5,9 +5,11 @@
 
 # 1. FLOW
 - Is an kotlin coroutine that is able to emit multiple values over period of time.
-- Single suspen function can only return a single value
-  
-### FlowCollector
+- Single suspen function can only return a single value. So flow comes into play to be opposed to susfunct.
+- A flow is conceptually a stream of data that can be computed asynchronously.
+- The emitted values must be of the same type. For example, a Flow<Int> is a flow that emits integer values.
+
+- A flow is very similar to an Iterator that produces a sequence of values, but it uses suspend functions to produce and consume values asynchronously. This means, for example, that the flow can safely make a network request to produce the next value without blocking the main thread.
 
 # 2. EMIT
 - Is a function used to send values from a flow to its collector.
@@ -59,75 +61,7 @@
   - ``collectWhile`` dan ``collectUtil``
   
 # 4. FLOW OPERATORS
-- **Transformations Operators**
-  - **map** => Transforms each emitted value by applying a given function.
-    ```kotlin
-    flowOf(1, 2, 3).map { it * 2 } // Emits 2, 4, 6
-    ```
-  - **filter** => Emits only those values that satisfy a given predicate.
-    ```kotlin
-    flowOf(1, 2, 3, 4).filter { it % 2 == 0 } // Emits 2, 4
-    ```
-  - **flatMapConcat**
-    ```kotlin
-    ```
-  - **flatMapMerge**
-    ```kotlin
-    ```
-- **Combining Oprators**
-  - **combine** =>  Combines values from two flows into a single flow based on the latest values emitted.
-    ```kotlin
-    val flow1 = flowOf(1, 2)
-    val flow2 = flowOf("A", "B")
-    flow1.combine(flow2) { a, b -> "$a$b" } // Emits "1A", "2B"
-    ```
-  - **zip** => Combines values from two flows, emitting pairs of values as they are emitted.
-    ```kotlin
-    flowOf(1, 2).zip(flowOf("A", "B")) { a, b -> "$a$b" } // Emits "1A", "2B"
-    ```
-- **Combining Oprators**
-  - **collect** => Starts the flow collection and processes each emitted value.
-    ```kotlin
-    flowOf(1, 2, 3).collect { println(it) }
-    ```
-  - **toList** => Collects all emitted values into a list.
-    ```kotlin
-    val list = flowOf(1, 2, 3).toList() // [1, 2, 3]
-    ```
-  - **first** => Returns the first value emitted by the flow.
-    ```kotlin
-    val firstValue = flowOf(1, 2, 3).first() // 1
-    ```
-- **Exception Handling**
-  - **catch** => Catches exceptions thrown during flow collection and allows you to handle them.
-    ```kotlin
-    flow {
-    emit(1)
-    throw Exception("Error")
-    }.catch { e -> emit(0) } // Emits 1, then 0
-    ```
-- **Flow Control Operators**
-  - **take**
-    ```kotlin
-    flowOf(1, 2, 3).take(2) // Emits 1, 2
-    ```
-  - **drop** =>  Skips the first n values and emits the rest.
-    ```kotlin
-    flowOf(1, 2, 3).drop(2) // Emits 3
-    ```
-  - **onEach** => Allows you to perform a side effect on each emitted value without altering the flow.
-    ```kotlin
-    flowOf(1, 2, 3).onEach { println(it) } // Prints 1, 2, 3
-    ```
-- **Buffering and Conflation**
-  - **buffer** => Allows the flow to emit values concurrently with the processing of the collected values.
-    ```kotlin
-    flowOf(1, 2, 3).buffer() // Buffers emitted values
-    ```
-  - **conflate** => Only keeps the latest value when the collector is slow.
-    ```kotlin
-    flowOf(1, 2, 3).conflate() // Emits only the latest value
-    ```
+- Ada banyak bgt, mls gw. Collect itu salah satunya. 
 
 
   
