@@ -11,6 +11,15 @@
 
 - A flow is very similar to an Iterator that produces a sequence of values, but it uses suspend functions to produce and consume values asynchronously. This means, for example, that the flow can safely make a network request to produce the next value without blocking the main thread.
 
+- **CHARACTERISTICS :**
+  - Asinkron
+  - Cold Streams
+    Flow is an cold, meaning theres no data will be produced as long as theres no collector that collect the data. Setiap kali u ngumpulin flow, maka aliran baru akan dimulai. 
+  - Backpressure
+    - Backpressure adalah situasi ketika pengirim data (publisher) mengirim data lebih cepat daripada penerima (subscriber) dapat memprosesnya. ((bisa crash dll))
+    - Kotlin Flow secara otomatis menangani backpressure. Flow adalah cold stream, yang berarti bahwa data tidak dihasilkan hingga ada yang mengumpulkannya. Dengan cara ini, Flow hanya menghasilkan data sesuai kebutuhan, sehingga mengurangi risiko backpressure.
+
+
 # 2. EMIT
 - Is a function used to send values from a flow to its collector.
 - When you create a flow using the flow {} builder, you can use emit(value) to produce a value that can be collected later.
