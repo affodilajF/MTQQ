@@ -41,8 +41,8 @@ https://www.youtube.com/watch?v=unkgAYV9SpI
   ![image](https://github.com/user-attachments/assets/4ba93501-d8e4-4353-a6ec-4c02b4be77a0)
 
 
-# 3. Channel Types 
-### 3.1 BUFFERED
+### 2.2 Channel Types 
+#### 2.1 BUFFERED
 - Ada max buffer capacity.
 - Will not be able to send more data than the buffer capacity UNTIL we receive the data and make some more space for the buffer to receive the new data.
 - If we send an element while the channel is full, then this circle will be suspended until the channel is cleaned up using received() atau for(value in channel){} (intinya looping aja karena kotlin akan scr otomatis memanggil .receive() dibalik layar untuk menggambil nilai dari channel. 
@@ -107,10 +107,10 @@ https://www.youtube.com/watch?v=unkgAYV9SpI
 
 
 
-### 3.2 CONFLATED
+#### 2.2 CONFLATED
 - Nilai yang disimpan di channel adalah nilai terakhir.
 - **Blocking**: Pengirim tidak terhalang (selalu bisa mengirim nilai baru); penerima terhalang jika channel kosong.
-### 3.3 RENDEZVOUS
+#### 2.3 RENDEZVOUS
 - By default, channel itu rendevouz.
 - Rendezvous channel adalah tipe channel di mana pengirim dan penerima harus bertemu secara langsung untuk mengirim dan menerima data.
 - Pengirim akan terhalang (blocked) hingga ada penerima yang siap untuk menerima nilai, dan sebaliknya. Ini menciptakan titik pertemuan di mana data dapat ditransfer langsung.
@@ -118,16 +118,30 @@ https://www.youtube.com/watch?v=unkgAYV9SpI
   - Blocking => sender receiver hrs sama2 siap
   - Sederhana => ez ges
   - Sesuai untuk situasi sync => Klo u mau mastiin bhwa pengirim dan penerima beroperasi scr bersamaan.  
-### 3.4 UNLIMITED
+#### 2.4 UNLIMITED
 - bsa nampung item tk terbatas.
 
 
 
+# 3. Coroutine context and dispatchers
+- Coroutines always execute in some context represented by a value of the CoroutineContext type, defined in the Kotlin standard library.
 
+## 3.1 Dispacther
+- Merupakan pengelola yang menentukan di mana coroutine akan dijalankan, yaitu pada thread mana atau kumpulan thread mana.
+- Types :
+  - **Dispacthers.Main**
+    Dirancang untuk menjalankan coroutine di thread utama (UI thread).
+  - **Dispacthers.IO**
+    Dioptimalkan untuk operasi I/O yang melibatkan disk, jaringan, atau operasi blocking lainnya. Ini biasanya menjalankan coroutine pada thread yang berbeda dari thread utama untuk menghindari blocking UI.
+  - **Dispatchers.Default**
+    Digunakan untuk pekerjaan komputasi intensif. Ini menjalankan coroutine di pool thread yang ditujukan untuk pekerjaan latar belakang yang berat.
+  - **Dispatchers.Unconfined**
+    Memulai coroutine di thread yang memanggilnya, tetapi setelah suspend, dapat dilanjutkan di thread mana pun. Ini tidak umum digunakan.
 
+**Kesimpulan**
+- Jika u menggunakan Dispatchers.IO, ketika u meluncurkan coroutine, coroutine tersebut akan dijadwalkan untuk dijalankan di salah satu thread dalam pool thread yang disediakan untuk operasi I/O. Namun, Anda tidak perlu mengelola thread secara langsung. Anda cukup menggunakan dispatcher untuk menentukan konteks di mana coroutine akan dijalankan.
 
-
-
+- Jadi, dispatchers itu bukan thread, tetapi merupakan cara untuk menentukan di mana coroutine akan dijalankan, mengelola dan menyederhanakan pemilihan thread yang tepat untuk berbagai jenis pekerjaan.
 
 
 
